@@ -2,7 +2,18 @@
 
 ## Run
 
+git clone <url of this repo> 
+cd book_shop
+
+# copy enviroment variables template to add your own variables
+cp .env.example .env
+
+
+# building and starting the container
 docker compose up --build
+
+# stopping
+docker compose down
 
 ## Access
 
