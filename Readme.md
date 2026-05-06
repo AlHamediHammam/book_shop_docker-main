@@ -23,7 +23,7 @@ http://localhost
 ## Services
 
 - Django backend
-- PostgreSQL database
+- PostgreSQL database   
 - Nginx reverse proxy
 
 ## Notes
