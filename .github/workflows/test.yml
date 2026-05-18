@@ -48,23 +48,21 @@ jobs:
 
       - name: Build Docker image from artifact
         env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
-            -t $REGISTRY/book_shop:$IMAGE_TAG \
-            -t $REGISTRY/book_shop:test-latest \
+            -t 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:$IMAGE_TAG \
+            -t 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:test-latest \
             .
 
       - name: Push image to ECR
         env:
-          REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker push $REGISTRY/book_shop:$IMAGE_TAG
-          docker push $REGISTRY/book_shop:test-latest
-          echo "IMAGE_URI=$REGISTRY/book_shop:$IMAGE_TAG" >> $GITHUB_ENV
-
+          docker push 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:$IMAGE_TAG
+          docker push 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:test-latest
+          echo "IMAGE_URI=913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:$IMAGE_TAG" >> $GITHUB_ENV
+          
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
