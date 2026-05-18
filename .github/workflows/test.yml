@@ -59,12 +59,11 @@ jobs:
       - name: Push image to ECR
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          REPOSITORY: ${{ vars.ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-          docker push $REGISTRY/$REPOSITORY:test-latest
-          echo "IMAGE_URI=$REGISTRY/$REPOSITORY:$IMAGE_TAG" >> $GITHUB_ENV
+          docker push $REGISTRY/book_shop:$IMAGE_TAG
+          docker push $REGISTRY/book_shop:test-latest
+          echo "IMAGE_URI=$REGISTRY/book_shop:$IMAGE_TAG" >> $GITHUB_ENV
 
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
