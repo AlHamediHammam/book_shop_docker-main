@@ -3,7 +3,7 @@ name: Branch 2 — test (Image-First, ECR)
 on:
   push:
     branches:
-      - test-branch
+      - test
 
 jobs:
   build-and-deploy:
@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
       - name: Build application artifact
         run: |
@@ -36,7 +41,7 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Build Docker image from artifact
+      - name: Build Docker image
         env:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.ECR_REPOSITORY }}
@@ -70,6 +75,7 @@ jobs:
               docker login --username AWS --password-stdin \
               $(echo $IMAGE_URI | cut -d'/' -f1)
             docker pull $IMAGE_URI
+            mkdir -p ~/book_shop_test
             cd ~/book_shop_test
             sed -i "s|image: .*book_shop.*|image: $IMAGE_URI|g" docker-compose.yml
             docker compose -p test down || true
