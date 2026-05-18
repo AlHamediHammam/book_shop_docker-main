@@ -4,7 +4,7 @@ name: Branch 2 — test (Image-First, ECR)
 on:
   push:
     branches:
-      - test
+      - test-branch
 
 jobs:
   build-and-deploy:
