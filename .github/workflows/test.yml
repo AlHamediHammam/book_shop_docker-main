@@ -42,22 +42,18 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build Docker image from artifact
-        env:
-          IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build \
-            -t 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:$IMAGE_TAG \
+            -t 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:${{ github.sha }} \
             -t 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:test-latest \
             .
 
       - name: Push image to ECR
-        env:
-          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker push 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:$IMAGE_TAG
+          docker push 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:${{ github.sha }}
           docker push 913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:test-latest
-          echo "IMAGE_URI=913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:$IMAGE_TAG" >> $GITHUB_ENV
-
+          echo "IMAGE_URI=913524900585.dkr.ecr.eu-central-1.amazonaws.com/book_shop:${{ github.sha }}" >> $GITHUB_ENV
+          
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
