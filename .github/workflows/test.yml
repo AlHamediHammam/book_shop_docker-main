@@ -1,8 +1,6 @@
 # updated
 name: Branch 2 — test (Image-First, ECR)
 
-name: Branch 2 — test (Image-First, ECR)
-
 on:
   push:
     branches:
